@@ -1,3 +1,10 @@
+require 'cy_data/unknown_file_type_exception'
+require 'cy_data/file_reader'
+require 'cy_data/file_writer'
+require 'cy_data/comparator/date_of_birth'
+require 'cy_data/comparator/last_name'
+require 'cy_data/comparator/gender_last_name'
+
 module CyData
   
   # class UnknownFileTypeException < Exception; 
@@ -66,31 +73,14 @@ module CyData
     
     output_format = lambda 
 
-    writer = OutputWriter.new(records) do |record|
+    writer = FileWriter.new(records) do |record|
       dob = record.date_of_birth.format('M/D/YYYY')
       [record.last_name, record.first_name, record.gender, record.middle_initial, dob, record.favorite_color]
     end
     
     # writer.write # ouputs the records unsorted
-    writer.write(GenderLastNameSorter)
-    writer.write(BirthDateSorter)
-    writer.write(LastNameSorter)
+    writer.write(sorter: Comparator::GenderLastName, header: "Output 1:")
+    writer.write(sorter: Comparator::DateOfBirth, header: "Output 1:")
+    writer.write(sorter: Comparator::LastName, header: "Output 1:")
   end
 end
-
-
-# piped_file_reader = FileReader.new(file: file,
-#                                    delimiter: '|',
-#                                    fields: [:last_name, :first_name, :middle_initial, :gender, :favorite_color, [:date_of_birth, Date]])
-# people = piped_file_reader.import
-#
-# output_format = lambda do |record|
-#   dob = record.date_of_birth.format('M/D/YYYY')
-#   [record.last_name, record.first_name, record.gender, record.middle_initial, dob, record.favorite_color]
-# end
-#
-# writer = OutputWriter.new(records, &output_format)
-# writer.write # ouputs the records unsorted
-# writer.write(GenderLastNameSorter)
-# writer.write(BirthDateSorter)
-# writer.write(LastNameSorter)

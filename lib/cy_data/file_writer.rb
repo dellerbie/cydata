@@ -1,4 +1,4 @@
 module CyData
-  class Record
+  class FileWriter
   end
 end

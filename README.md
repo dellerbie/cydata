@@ -1,7 +1,9 @@
 CyData
 ======
 
+```shell
 cy_data file1 file2 file3 ... fileN
+```
 
 Output will go to STDOUT with a marker row (e.g., "Output 1:", "Output 2:", "Output 3:") for each type of output.
 
